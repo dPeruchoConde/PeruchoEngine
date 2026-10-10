@@ -50,8 +50,8 @@ public:
 	template<typename T>
 		requires derived_from<T, Component>
 	T* GetComponentByType() {
-		for (int i = 0; i < Compoments.size(); i++) {
-			if (T* c = dynamic_cast<T*>(Compoments[i].get())) {
+		for (int i = 0; i < Components.size(); i++) {
+			if (T* c = dynamic_cast<T*>(Components[i].get())) {
 				return c;
 			}
 		}
@@ -68,8 +68,8 @@ public:
 	vector<T*> GetAllComponentsByType() {
 		vector<T*> lComponents;
 
-		for (int i = 0; i < Compoments.size(); i++) {
-			if (T* c = dynamic_cast<T*>(Compoments[i].get())) {
+		for (int i = 0; i < Components.size(); i++) {
+			if (T* c = dynamic_cast<T*>(Components[i].get())) {
 				lComponents.push_back(c);
 			}
 		}
@@ -83,7 +83,7 @@ public:
 	{
 		string type = "";
 		auto component = std::make_unique<T>(
-			type,
+			//type,
 			name,
 			*this,
 			std::forward<Args>(args)...
@@ -91,11 +91,11 @@ public:
 
 		T* ComponentPtr = component.get();
 
-		Compoments.push_back(std::move(component));
+		Components.push_back(std::move(component));
 
 		ComponentPtr->Start();
 
-		return *ComponentPtr;
+		return ComponentPtr;
 	}
 
 	void Destroy();
