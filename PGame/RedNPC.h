@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Entity.h"
+#include "PRegistry.h"
 
+P_ENTITY(RedNPC, "RedNPC")
 class RedNPC : public Entity
 {
 public:

@@ -1,6 +1,8 @@
 #pragma once
 #include "Entity.h"
+#include "PRegistry.h"
 
+P_ENTITY(GameCamera, "GameCamera")
 class GameCamera : public Entity
 {
 public:

@@ -33,7 +33,7 @@ public:
 
 	Component* CreateCompoent(string type, string name, Entity& e);
     void RegisterEntity(string name, function<unique_ptr<Entity>(const string)> constructor);
-	unique_ptr<Entity> CreateEntity(string name);
+	unique_ptr<Entity> CreateEntity(string type, string name);
 
 private:
 	PRegistry();

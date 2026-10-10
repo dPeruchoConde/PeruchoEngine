@@ -27,8 +27,8 @@ void PRegistry::RegisterEntity(string name, function<unique_ptr<Entity>(const st
 	EntitiesContructors[name] = constructor;
 }
 
-unique_ptr<Entity> PRegistry::CreateEntity(string name) {
-	auto e = EntitiesContructors.find(name);
+unique_ptr<Entity> PRegistry::CreateEntity(string type, string name) {
+	auto e = EntitiesContructors.find(type);
 	if (e == EntitiesContructors.end()) {
 		return nullptr;
 	}
