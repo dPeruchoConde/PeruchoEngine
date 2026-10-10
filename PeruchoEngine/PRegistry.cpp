@@ -1,6 +1,7 @@
 #include "PRegistry.h"
 #include "PCamera.h"
 #include "PMesh.h"
+#include <algorithm>
 
 PRegistry& PRegistry::GetInstance() {
 	static PRegistry Instance;
@@ -33,5 +34,20 @@ unique_ptr<Entity> PRegistry::CreateEntity(string type, string name) {
 		return nullptr;
 	}
 
-	return e->second(name);
+	unique_ptr<Entity> entity = e->second(name);
+	entity->SetType(type);
+
+	return entity;
+}
+
+vector<string> PRegistry::GetEntitiesTypes() const {
+	vector<string> entitiesTypes;
+	entitiesTypes.reserve(EntitiesContructors.size());
+
+	for (const auto& [type, constructor] : EntitiesContructors) {
+		entitiesTypes.push_back(type);
+	}
+	std::sort(entitiesTypes.begin(), entitiesTypes.end());
+
+	return entitiesTypes;
 }

@@ -7,6 +7,8 @@
 #include "Component.h"
 #include <raylib.h>
 
+class PRegistry;
+
 using namespace std;
 
 class PENGINE_API Entity
@@ -104,10 +106,18 @@ public:
 
 	vector<unique_ptr<Component>>& GetComponents();
 
+	string GetType() const;
+
 private:
+	friend class PRegistry;
+
 	Transform EntityTransform;
 
 	vector<unique_ptr<Component>> Components;
+
+	void SetType(const string type);
+
+	string Type = "";
 
 	bool DestroyEntity = false;
 };

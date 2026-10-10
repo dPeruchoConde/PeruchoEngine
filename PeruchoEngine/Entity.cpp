@@ -70,6 +70,7 @@ vector<unique_ptr<Component>>& Entity::GetComponents() {
 
 void Entity::Serialize(nlohmann::json& j) const {
 	j["name"] = Name;
+	j["type"] = Type;
 	j["enabled"] = Enabled;
 	j["tag"] = Tag;
 	j["position"] = {
@@ -105,6 +106,7 @@ void Entity::Serialize(nlohmann::json& j) const {
 
 void Entity::Deserialize(const nlohmann::json& j) {
 	Name = j.value("name", "");
+	Type = j.value("name", "");
 	Enabled = j.value("enabled", true);
 	Tag = j.value("tag", "");
 
@@ -134,4 +136,12 @@ void Entity::Deserialize(const nlohmann::json& j) {
 			Components.emplace_back(component);
 		}
 	}
+}
+
+string Entity::GetType() const {
+	return Type;
+}
+
+void Entity::SetType(const string type) {
+	Type = type;
 }

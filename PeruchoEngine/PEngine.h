@@ -52,6 +52,8 @@ public:
 		return ePtr;
 	}
 
+	Entity* AddRegisteredEntity(string type, string name);
+
 	bool Grid = false;
 	string WindowName = "Perucho engine";
 	int WindowHeight = 720;

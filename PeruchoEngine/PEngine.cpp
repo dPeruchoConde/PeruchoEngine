@@ -120,8 +120,9 @@ void PEngine::Deserialize(const nlohmann::json& j) {
     for (const auto& entityJson : j["entities"])
     {
         std::string name = entityJson.at("name");
+        std::string type = entityJson.at("type");
 
-        if (unique_ptr<Entity> entity = PRegistry::GetInstance().CreateEntity(name)) {
+        if (unique_ptr<Entity> entity = PRegistry::GetInstance().CreateEntity(type, name)) {
             entity.get()->Deserialize(entityJson);
             Entities.emplace(name, std::move(entity));
         }
@@ -132,4 +133,19 @@ void PEngine::ClearEntities() {
     MainCamera = nullptr;
     Entities.clear();
     Cameras.clear();
+}
+
+Entity* PEngine::AddRegisteredEntity(string type, string name) {
+    if (Entities.find(name) != Entities.end()) {
+        return nullptr;
+    }
+
+    if (unique_ptr<Entity> e = PRegistry::GetInstance().CreateEntity(type, name)) {
+        Entity* entityPtr = e.get();
+        Entities.emplace(name, std::move(e));
+        entityPtr->Start();
+        return entityPtr;
+    }
+
+    return nullptr;
 }

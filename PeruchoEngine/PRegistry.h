@@ -9,11 +9,11 @@
         {                                                       \
             T##Registration()                                   \
             {                                                   \
-                PRegistry::GetInstance().RegisterEntity(       \
-                    PNAME,                                          \
-                    [](const std::string& name)                  \
+                PRegistry::GetInstance().RegisterEntity(        \
+                    PNAME,                                      \
+                    [](const std::string& name)                 \
                     {                                           \
-                        return std::make_unique<T>(name);        \
+                        return std::make_unique<T>(name);       \
                     });                                         \
             }                                                   \
         };                                                      \
@@ -34,6 +34,8 @@ public:
 	Component* CreateCompoent(string type, string name, Entity& e);
     void RegisterEntity(string name, function<unique_ptr<Entity>(const string)> constructor);
 	unique_ptr<Entity> CreateEntity(string type, string name);
+
+    vector<string> GetEntitiesTypes() const;
 
 private:
 	PRegistry();
