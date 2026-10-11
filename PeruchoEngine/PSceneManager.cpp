@@ -9,9 +9,7 @@ PSceneManager& PSceneManager::GetInstance() {
 }
 
 void PSceneManager::LoadScene(std::string sceneName) {
-	if (CurrentScene != "") {
-		PEngine::GetInstance().ClearEntities();
-	}
+	PEngine::GetInstance().ClearEntities();
 
 	fs::path assetsPath = PPath::GetInstance().GetAssetsPath();
 	fs::path scenePath = assetsPath / "Scenes" / (sceneName + ".json");
@@ -28,9 +26,9 @@ void PSceneManager::LoadScene(std::string sceneName) {
 	}
 }
 
-void PSceneManager::SaveScene() {
+void PSceneManager::SaveScene(std::string sceneName) {
 	fs::path assetsPath = PPath::GetInstance().GetAssetsPath();
-	fs::path scenePath = assetsPath / "Scenes" / (CurrentScene + ".json");
+	fs::path scenePath = assetsPath / "Scenes" / (sceneName + ".json");
 
 	nlohmann::json sceneJson;
 
@@ -42,4 +40,14 @@ void PSceneManager::SaveScene() {
 	}
 
 	file << sceneJson.dump(4);
+}
+
+void PSceneManager::DeleteScene(std::string sceneName) {
+	PEngine::GetInstance().ClearEntities();
+
+	fs::path assetsPath = PPath::GetInstance().GetAssetsPath();
+	fs::path scenePath = assetsPath / "Scenes" / (sceneName + ".json");
+	if (fs::exists(scenePath)) {
+		fs::remove(scenePath);
+	}
 }

@@ -15,6 +15,8 @@ public:
     void Update();
     void Render();
 
+    void CloseEditor();
+
     bool MovingViewPort = false;
 
 private:
@@ -29,12 +31,13 @@ private:
     void DrawViewport();
     void RenderViewPort();
 
-    void CloseEditor();
-
     bool firstFrame = true;
 
     RenderTexture2D ViewportTexture{};
 
     Entity* SelectedEntity = nullptr;
+
+private:
+    Entity* MainEditorCamera = nullptr;
 };
 

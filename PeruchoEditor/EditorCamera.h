@@ -13,6 +13,7 @@ public:
 		std::string tag = ""
 	) : Entity(name, position, rotation, scale, tag) {}
 
+	virtual void Start();
 	void Update(float deltaTime) override;
 };
 

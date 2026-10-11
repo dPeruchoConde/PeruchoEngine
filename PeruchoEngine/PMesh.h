@@ -14,6 +14,10 @@ public:
 
 	string GetType() const override;
 
+	void Serialize(nlohmann::json& j) const override;
+
+	void Deserialize(const nlohmann::json& j) override;
+
 private:
 	MeshShape Shape = MeshShape::COMPLEX_SHAPE;
 	Color MeshColor = RED;

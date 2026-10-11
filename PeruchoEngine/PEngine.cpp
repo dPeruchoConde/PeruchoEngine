@@ -19,11 +19,13 @@ void PEngine::Update() {
 
     vector<string> entitiesToDestroy;
     for (const auto& [name, entity] : Entities) {
-        if (entity->ShouldDestroy()) {
-            entitiesToDestroy.push_back(entity->Name);
-        }
-        else {
-            entity->Update(deltaTime);
+        if (Paused == false || entity->IsEditorOnly == true) {
+            if (entity->ShouldDestroy()) {
+                entitiesToDestroy.push_back(entity->Name);
+            }
+            else {
+                entity->Update(deltaTime);
+            }
         }
     }
 
@@ -102,6 +104,7 @@ void PEngine::ChangeMainCamera(Entity& newCamera) {
     if (PCamera* cameraEntity = newCamera.GetComponentByType<PCamera>()) {
         MainCamera = &cameraEntity->Camera;
     }
+    EditorCamera = newCamera.IsEditorOnly;
 }
 
 const unordered_map<string, unique_ptr<Entity>>& PEngine::GetEntities() {
@@ -112,11 +115,13 @@ void PEngine::Serialize(nlohmann::json& j) const {
     j["entities"] = nlohmann::json::array();
 
     for (const auto& [name, entity] : Entities) {
-        nlohmann::json entityJson;
+        if (entity->IsEditorOnly == false) {
+            nlohmann::json entityJson;
 
-        entity->Serialize(entityJson);
+            entity->Serialize(entityJson);
 
-        j["entities"].push_back(entityJson);
+            j["entities"].push_back(entityJson);
+        }
     }
 }
 
@@ -134,8 +139,18 @@ void PEngine::Deserialize(const nlohmann::json& j) {
 }
 
 void PEngine::ClearEntities() {
-    MainCamera = nullptr;
-    Entities.clear();
+    for (auto it = Entities.begin(); it != Entities.end();) {
+        if (!it->second->IsEditorOnly) {
+            it = Entities.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+    if (EditorCamera == false) {
+        MainCamera = nullptr;
+    }
+    //Entities.clear();
     Cameras.clear();
 }
 
@@ -152,4 +167,8 @@ Entity* PEngine::AddRegisteredEntity(string type, string name) {
     }
 
     return nullptr;
+}
+
+void PEngine::PauseGame(bool pause) {
+    Paused = pause;
 }

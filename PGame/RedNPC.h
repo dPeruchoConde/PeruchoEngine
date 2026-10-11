@@ -17,6 +17,8 @@ public:
 	}
 
 	virtual void Start();
+
+	virtual void Update(float deltaTime);
 };
 
 P_ENTITY(RedNPC, "RedNPC")

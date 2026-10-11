@@ -4,6 +4,9 @@
 #include "imgui.h"
 #include "imgui_internal.h"
 #include "PRegistry.h"
+#include "PSceneManager.h"
+#include "EditorCamera.h"
+#include "PCamera.h"
 
 PEditor& PEditor::GetInstance()
 {
@@ -298,6 +301,25 @@ void PEditor::DrawInspector()
 void PEditor::DrawViewport() {
     ImGui::Begin("Viewport");
 
+    // Simular
+    if (ImGui::Button("-> Simulate")) {
+        PSceneManager::GetInstance().SaveScene("temp");
+        PEngine::GetInstance().PauseGame(false);
+    }
+
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+    ImGui::SameLine();
+
+    // Detener simulación
+    if (ImGui::Button("-> Stop")) {
+        SelectedEntity = nullptr;
+        PSceneManager::GetInstance().LoadScene("temp");
+        PEngine::GetInstance().PauseGame(true);
+    }
+
+    ImGui::Separator();
+
     ImVec2 viewportSize = ImGui::GetContentRegionAvail();
 
     MovingViewPort = ImGui::IsWindowHovered();
@@ -310,4 +332,8 @@ void PEditor::DrawViewport() {
 void PEditor::CloseEditor() {
     UnloadRenderTexture(ViewportTexture);
     rlImGuiShutdown();
+
+    PRegistry::GetInstance().ClearRegistry();
+    PEngine::GetInstance().ClearEntities();
+    PSceneManager::GetInstance().DeleteScene("temp");
 }

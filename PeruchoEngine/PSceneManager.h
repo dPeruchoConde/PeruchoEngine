@@ -1,8 +1,9 @@
 #pragma once
 
+#include "ExportHeaders.h"
 #include <string>
 
-class PSceneManager
+class PENGINE_API PSceneManager
 {
 public:
     static PSceneManager& GetInstance();
@@ -14,7 +15,9 @@ public:
     //En el futuro hay que montar un hilo para esto
     void LoadScene(std::string sceneName);
 
-    void SaveScene();
+    void SaveScene(std::string sceneName);
+
+    void DeleteScene(std::string sceneName);
 
 private:
     PSceneManager() = default;

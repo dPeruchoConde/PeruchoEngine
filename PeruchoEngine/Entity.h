@@ -108,6 +108,8 @@ public:
 
 	string GetType() const;
 
+	bool IsEditorOnly = false;
+
 private:
 	friend class PRegistry;
 

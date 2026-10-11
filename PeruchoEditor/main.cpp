@@ -4,6 +4,7 @@
 #include "EditorCamera.h"
 #include "PLoader.h"
 #include "PRegistry.h"
+#include "PSceneManager.h"
 
 int main() 
 {
@@ -15,6 +16,7 @@ int main()
     PEngine& engine = PEngine::GetInstance();
     engine.Start();
     engine.Grid = true;
+    PEngine::GetInstance().PauseGame(true);
 
     PEditor& editor = PEditor::GetInstance();
     editor.Start();
@@ -29,8 +31,7 @@ int main()
         editor.Render();
     }
 
-    PRegistry::GetInstance().ClearRegistry();
-    engine.ClearEntities();
+    editor.CloseEditor();
 
     return 0;
 }

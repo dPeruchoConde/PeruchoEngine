@@ -22,6 +22,8 @@ public:
 	void Render();
 	void RenderGame();
 
+	void PauseGame(bool pause);
+
 	bool WindowState();
 
 	void Serialize(nlohmann::json& j) const;
@@ -70,9 +72,12 @@ private:
 
 	void RemoveEntity(string name);
 
+	bool Paused = false;
+
 	vector<Camera> Cameras;
 
 	Camera3D* MainCamera = nullptr;
+	bool EditorCamera = false;
 
 	//vector<unique_ptr<Entity>> Entities;
 

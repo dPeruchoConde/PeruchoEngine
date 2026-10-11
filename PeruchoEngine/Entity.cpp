@@ -1,5 +1,7 @@
 #include "Entity.h"
 #include "PRegistry.h"
+#include "PMesh.h"
+#include <iostream>
 
 Entity::Entity(
 	std::string name,
