@@ -20,6 +20,7 @@ public:
 	void Start();
 	void Update();
 	void Render();
+	void RenderGame();
 
 	bool WindowState();
 

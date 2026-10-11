@@ -15,6 +15,8 @@ public:
 		std::string tag = ""
 	) : Entity(name, position, rotation, scale, tag) {
 	}
+
+	virtual void Start();
 };
 
 P_ENTITY(RedNPC, "RedNPC")

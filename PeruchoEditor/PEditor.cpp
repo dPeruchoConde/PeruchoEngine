@@ -69,18 +69,22 @@ void PEditor::SetUpDocking() {
 void PEditor::Render() {
     rlImGuiBegin();
 
+    RenderViewPort();
+
     DrawEditorDocks();
 
     DrawEntitiesPanel();
     DrawInspector();
 
-    RenderViewPort();
     DrawViewport();
 
     rlImGuiEnd();
+    EndDrawing();
 }
 
 void PEditor::RenderViewPort() {
+    BeginDrawing();
+    ClearBackground(DARKGRAY);
     BeginTextureMode(ViewportTexture);
 
     PEngine::GetInstance().Render();
