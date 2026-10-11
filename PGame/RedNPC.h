@@ -2,9 +2,9 @@
 
 #include "Entity.h"
 #include "PRegistry.h"
+#include "PGameExport.h"
 
-P_ENTITY(RedNPC, "RedNPC")
-class RedNPC : public Entity
+class PGAME_API RedNPC : public Entity
 {
 public:
 	RedNPC(
@@ -17,3 +17,4 @@ public:
 	}
 };
 
+P_ENTITY(RedNPC, "RedNPC")

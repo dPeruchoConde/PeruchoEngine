@@ -37,6 +37,8 @@ public:
 
     vector<string> GetEntitiesTypes() const;
 
+    void ClearRegistry();
+
 private:
 	PRegistry();
 	~PRegistry() = default;

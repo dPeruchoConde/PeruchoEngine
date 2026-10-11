@@ -54,6 +54,8 @@ public:
 
 	Entity* AddRegisteredEntity(string type, string name);
 
+	void ClearEntities();
+
 	bool Grid = false;
 	string WindowName = "Perucho engine";
 	int WindowHeight = 720;
@@ -66,7 +68,6 @@ private:
 	~PEngine() = default;
 
 	void RemoveEntity(string name);
-	void ClearEntities();
 
 	vector<Camera> Cameras;
 

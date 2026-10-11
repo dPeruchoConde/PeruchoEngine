@@ -1,9 +1,9 @@
 #pragma once
 #include "Entity.h"
 #include "PRegistry.h"
+#include "PGameExport.h"
 
-P_ENTITY(GameCamera, "GameCamera")
-class GameCamera : public Entity
+class PGAME_API GameCamera : public Entity
 {
 public:
 	GameCamera(
@@ -15,3 +15,4 @@ public:
 	) : Entity(name, position, rotation, scale, tag) {}
 };
 
+P_ENTITY(GameCamera, "GameCamera")

@@ -21,6 +21,9 @@
     <ClInclude Include="RedNPC.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PGameExport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameCamera.cpp">

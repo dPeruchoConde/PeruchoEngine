@@ -51,3 +51,8 @@ vector<string> PRegistry::GetEntitiesTypes() const {
 
 	return entitiesTypes;
 }
+
+void PRegistry::ClearRegistry() {
+	EntitiesContructors.clear();
+	ComponentTypes.clear();
+}

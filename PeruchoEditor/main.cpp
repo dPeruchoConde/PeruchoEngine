@@ -2,9 +2,16 @@
 #include "PEngine.h"
 #include "PCamera.h"
 #include "EditorCamera.h"
+#include "PLoader.h"
+#include "PRegistry.h"
 
 int main() 
 {
+    PLoader moduleLoader;
+    if (!moduleLoader.LoadModule("PGame.dll")) {
+        return -1;
+    }
+
     PEngine& engine = PEngine::GetInstance();
     engine.Start();
     engine.Grid = true;
@@ -21,6 +28,9 @@ int main()
 
         editor.Render();
     }
+
+    PRegistry::GetInstance().ClearRegistry();
+    engine.ClearEntities();
 
     return 0;
 }

@@ -3,6 +3,7 @@
 #include "rlImGui.h"
 #include "imgui.h"
 #include "imgui_internal.h"
+#include "PRegistry.h"
 
 PEditor& PEditor::GetInstance()
 {
@@ -133,7 +134,109 @@ void PEditor::DrawEntitiesPanel()
     ImGui::Begin("Entities");
 
     PEngine& engine = PEngine::GetInstance();
+    PRegistry& registry = PRegistry::GetInstance();
 
+    // Boton para crear entidades
+    if (ImGui::Button("+ Add Entity"))
+    {
+        ImGui::OpenPopup("Add Entity");
+    }
+
+    // Datos de la entidad a crear
+    static string selectedType;
+    static char entityName[128] = "NewEntity";
+    static bool creationFailed = false;
+
+    const vector<string> types = registry.GetEntitiesTypes();
+
+    // Popup de creacion.
+    if (ImGui::BeginPopup("Add Entity"))
+    {
+        ImGui::Text("New entity");
+        ImGui::Separator();
+
+        if (types.empty())
+        {
+            ImGui::TextWrapped(
+                "There are no registered entities you need to create one first"
+            );
+        }
+        else
+        {
+            if (find(types.begin(), types.end(), selectedType) == types.end()) {
+                selectedType = types.front();
+            }
+
+            // Selector de tipo
+            if (ImGui::BeginCombo("Entity Type", selectedType.c_str()))
+            {
+                for (const auto& type : types)
+                {
+                    bool selected = (selectedType == type);
+
+                    if (ImGui::Selectable(type.c_str(), selected))
+                    {
+                        selectedType = type;
+                    }
+
+                    if (selected) {
+                        ImGui::SetItemDefaultFocus();
+                    } 
+                }
+
+                ImGui::EndCombo();
+            }
+
+            // Nombre de la entidad
+            ImGui::InputText("Entity Name", entityName, IM_ARRAYSIZE(entityName));
+
+            if (ImGui::Button("Add"))
+            {
+                if (entityName[0] != '\0' &&
+                    !selectedType.empty())
+                {
+                    Entity* newEntity = engine.AddRegisteredEntity(selectedType, entityName);
+
+                    if (newEntity)
+                    {
+                        SelectedEntity = newEntity;
+                        creationFailed = false;
+
+                        entityName[0] = '\0';
+
+                        ImGui::CloseCurrentPopup();
+                    }
+                    else
+                    {
+                        creationFailed = true;
+                    }
+                }
+                else
+                {
+                    creationFailed = true;
+                }
+            }
+
+            ImGui::SameLine();
+
+            if (ImGui::Button("Cancel"))
+            {
+                creationFailed = false;
+                ImGui::CloseCurrentPopup();
+            }
+
+            if (creationFailed)
+            {
+                ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "Entity name is invalid");
+            }
+        }
+
+        ImGui::EndPopup();
+    }
+
+    ImGui::Separator();
+
+    // Lista de entidades
     for (const auto& [name, entity] : engine.GetEntities())
     {
         bool selected = SelectedEntity == entity.get();
