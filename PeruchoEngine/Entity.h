@@ -33,7 +33,7 @@ public:
 	
 	bool Enabled = true;
 
-	virtual void Start() {};
+	virtual void Start();
 
 	virtual void Update(float deltaTime);
 
@@ -95,7 +95,7 @@ public:
 
 		Components.push_back(std::move(component));
 
-		ComponentPtr->Start();
+		//ComponentPtr->Start();
 
 		return ComponentPtr;
 	}

@@ -124,6 +124,11 @@ void PMesh::Deserialize(const nlohmann::json& j) {
 	};
 	TextureRoute = j.value("textureRoute", "");
 
+	UnloadModel(PModel);
+	if (TextureRoute != "") {
+		UnloadTexture(PTexture);
+	}
+
 	if (Shape == MeshShape::COMPLEX_SHAPE && !MeshRoute.empty())
 	{
 		PModel = LoadModel(MeshRoute.c_str());

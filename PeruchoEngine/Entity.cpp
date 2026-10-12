@@ -40,6 +40,13 @@ vector<Component*> Entity::GetAllComponentsByName(string name) {
 	return lComponents;
 }
 
+void Entity::Start() {
+	for (int i = 0; i < Components.size(); i++) {
+		Components[i]->Start();
+	}
+}
+
+
 void Entity::Update(float deltaTime) {
 	for (int i = 0; i < Components.size(); i++) {
 		Components[i]->Update(deltaTime);

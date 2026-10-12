@@ -5,16 +5,16 @@ PCamera::PCamera(string name, Entity& e, CameraMode mode, bool currentCamera) : 
 	Mode = mode;
 	Camera = { 0 };
 	CurrentCamera = currentCamera;
-}
 
-void PCamera::Start() {
 	Transform& transform = RootEntity.GetEntityTransform();
 	Camera.position = transform.translation;
 	Camera.target = Vector3{ 0.0f, 0.0f, 0.0f };
 	Camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
 	Camera.fovy = 45.0f;
 	Camera.projection = CAMERA_PERSPECTIVE;
+}
 
+void PCamera::Start() {
 	if (CurrentCamera) {
 		PEngine::GetInstance().ChangeMainCamera(RootEntity);
 	}

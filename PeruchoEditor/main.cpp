@@ -22,7 +22,6 @@ int main()
     editor.Start();
 
     EditorCamera* camera = engine.AddEntity<EditorCamera>("EditorCamera", Vector3{ 5.0f, 5.0f, 5.0f });
-    camera->AddComponent<PCamera>("CameraComponent", CAMERA_FREE, true);
 
     while (engine.WindowState())
     {
