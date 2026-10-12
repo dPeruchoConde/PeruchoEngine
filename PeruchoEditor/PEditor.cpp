@@ -302,9 +302,38 @@ void PEditor::DrawViewport() {
     ImGui::Begin("Viewport");
 
     // Simular
+    if (ImGui::Button("Save scene")) {
+        if (CurrentScene != "") {
+            PSceneManager::GetInstance().SaveScene("temp");
+        }
+        else {
+            ImGui::OpenPopup("Create scene");
+        }
+    }
+
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+    ImGui::SameLine();
+
+    const vector<string> sceneNames = PSceneManager::GetInstance().GetAllSceneNames();
+    // Detener simulación
+    if (ImGui::Button("Load scene")) {
+        if (sceneNames.size() <= 0) {
+            ImGui::OpenPopup("No scenes");        }
+        else {
+            ImGui::OpenPopup("Select scene");
+        }
+    }
+
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+    ImGui::SameLine();
+
+    // Simular
     if (ImGui::Button("-> Simulate")) {
         PSceneManager::GetInstance().SaveScene("temp");
         PEngine::GetInstance().PauseGame(false);
+        PEngine::GetInstance().StartGame();
     }
 
     ImGui::SameLine();
@@ -326,14 +355,121 @@ void PEditor::DrawViewport() {
 
     rlImGuiImageRenderTexture(&ViewportTexture);
 
+    // Popup para cuando no hay escenas
+    if (ImGui::BeginPopup("No scenes"))
+    {
+        ImGui::Text("No scenes");
+        ImGui::Separator();
+
+        ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "There are no scenes to load");
+
+        if (ImGui::Button("Accept"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
+
+    static string selectedScene = "";
+
+    // Popup de para seleccionar escenas
+    if (ImGui::BeginPopup("Select scene"))
+    {
+        ImGui::Text("Select a scene");
+        ImGui::Separator();
+
+        if (find(sceneNames.begin(), sceneNames.end(), selectedScene) == sceneNames.end()) {
+            selectedScene = sceneNames.front();
+        }
+
+        // Selector de escena
+        if (ImGui::BeginCombo("Entity Type", selectedScene.c_str()))
+        {
+            for (const auto& scene : sceneNames)
+            {
+                bool selected = (selectedScene == scene);
+
+                if (ImGui::Selectable(scene.c_str(), selected))
+                {
+                    selectedScene = scene;
+                }
+
+                if (selected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::Button("Select"))
+        {
+            if (selectedScene[0] != '\0')
+            {
+                PSceneManager::GetInstance().SaveScene(selectedScene);
+                CurrentScene = selectedScene;
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
+
+    static char sceneName[128] = "NewScene";
+
+    // Popup de para guardar scenas
+    if (ImGui::BeginPopup("Create scene"))
+    {
+        ImGui::Text("New scene");
+        ImGui::Separator();
+
+        // Nombre de la escena
+        ImGui::InputText("Scene Name", sceneName, IM_ARRAYSIZE(sceneName));
+
+        if (ImGui::Button("Add"))
+        {
+            if (sceneName[0] != '\0')
+            {
+                vector<string> existingScenes = PSceneManager::GetInstance().GetAllSceneNames();
+                if (find(existingScenes.begin(), existingScenes.end(), sceneName) != existingScenes.end() ||
+                    sceneName == "temp") {
+                    ImGui::TextColored(ImVec4(1.0f, 0.3f, 0.3f, 1.0f), "The scene name is invalid");
+                }
+                else {
+                    PSceneManager::GetInstance().SaveScene(sceneName);
+                    CurrentScene = sceneName;
+                    ImGui::CloseCurrentPopup();
+                }
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Cancel"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
+
     ImGui::End();
 }
 
 void PEditor::CloseEditor() {
+    SelectedEntity = nullptr;
+    PRegistry::GetInstance().ClearRegistry();
+    PEngine::GetInstance().ClearEntities();
+
     UnloadRenderTexture(ViewportTexture);
     rlImGuiShutdown();
 
-    PRegistry::GetInstance().ClearRegistry();
-    PEngine::GetInstance().ClearEntities();
     PSceneManager::GetInstance().DeleteScene("temp");
 }

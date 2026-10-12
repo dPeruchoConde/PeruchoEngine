@@ -10,7 +10,10 @@ PMesh::PMesh(string name, Entity& e, MeshShape shape, string route, string textu
 	TextureRoute = textureRoute;
 	Render3D = true;
 
-	PModel = LoadModel(MeshRoute.c_str());
+	if (Shape == MeshShape::COMPLEX_SHAPE && !MeshRoute.empty())
+	{
+		PModel = LoadModel(MeshRoute.c_str());
+	}
 	if (TextureRoute != "") {
 		PTexture = LoadTexture(TextureRoute.c_str());
 	}
@@ -121,7 +124,10 @@ void PMesh::Deserialize(const nlohmann::json& j) {
 	};
 	TextureRoute = j.value("textureRoute", "");
 
-	PModel = LoadModel(MeshRoute.c_str());
+	if (Shape == MeshShape::COMPLEX_SHAPE && !MeshRoute.empty())
+	{
+		PModel = LoadModel(MeshRoute.c_str());
+	}
 	if (TextureRoute != "") {
 		PTexture = LoadTexture(TextureRoute.c_str());
 	}

@@ -18,6 +18,7 @@ public:
 	PEngine& operator=(const PEngine&) = delete;
 
 	void Start();
+	void StartGame();
 	void Update();
 	void Render();
 	void RenderGame();
@@ -50,7 +51,9 @@ public:
 
 		Entities.emplace(name, std::move(e));
 
-		ePtr->Start();
+		if (Paused == false || ePtr->IsEditorOnly == true) {
+			ePtr->Start();
+		}
 
 		return ePtr;
 	}

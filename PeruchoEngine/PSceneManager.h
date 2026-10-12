@@ -2,6 +2,9 @@
 
 #include "ExportHeaders.h"
 #include <string>
+#include <vector>
+
+using namespace std;
 
 class PENGINE_API PSceneManager
 {
@@ -13,15 +16,15 @@ public:
     PSceneManager& operator=(const PSceneManager&) = delete;
 
     //En el futuro hay que montar un hilo para esto
-    void LoadScene(std::string sceneName);
+    void LoadScene(string sceneName);
 
-    void SaveScene(std::string sceneName);
+    void SaveScene(string sceneName);
 
-    void DeleteScene(std::string sceneName);
+    void DeleteScene(string sceneName);
+
+    vector<string> GetAllSceneNames();
 
 private:
     PSceneManager() = default;
     ~PSceneManager() = default;
-
-    std::string CurrentScene = "";
 };

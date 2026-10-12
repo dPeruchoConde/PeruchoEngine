@@ -39,5 +39,7 @@ private:
 
 private:
     Entity* MainEditorCamera = nullptr;
+
+    string CurrentScene = "";
 };
 

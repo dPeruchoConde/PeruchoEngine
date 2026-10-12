@@ -14,6 +14,14 @@ void PEngine::Start() {
     SetTargetFPS(60);
 }
 
+void PEngine::StartGame() {
+    for (const auto& [name, entity] : Entities) {
+        if (Paused == false && entity->IsEditorOnly == false) {
+            entity->Start();
+        }
+    }
+}
+
 void PEngine::Update() {
     float deltaTime = GetFrameTime();
 

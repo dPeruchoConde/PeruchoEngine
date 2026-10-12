@@ -12,7 +12,7 @@ class PENGINE_API Component
 {
 public:
 	Component(string name, Entity& e);
-	virtual ~Component() {}
+	virtual ~Component() = default;
 
 	virtual void Start() {};
 
