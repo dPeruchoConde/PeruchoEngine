@@ -20,7 +20,7 @@ PRegistry::PRegistry() {
 		};
 }
 
-Component* PRegistry::CreateCompoent(string type, string name, Entity& e) {
+Component* PRegistry::CreateComponent(string type, string name, Entity& e) {
 	return ComponentTypes.at(type)(name, e);
 }
 

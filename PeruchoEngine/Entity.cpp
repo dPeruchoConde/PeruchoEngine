@@ -140,10 +140,18 @@ void Entity::Deserialize(const nlohmann::json& j) {
 		std::string type = componentJson.at("type");
 		std::string name = componentJson.at("name");
 
-		if (Component* component = PRegistry::GetInstance().CreateCompoent(type, name, *this)) {
-			component->Deserialize(componentJson);
+		Component* component = nullptr;
+		for (int i = 0; i < Components.size(); i++) {
+			if (Components[i]->Name == name) {
+				component = Components[i].get();
+			}
+		}
+
+		if (component == nullptr) {
+			component = PRegistry::GetInstance().CreateComponent(type, name, *this);
 			Components.emplace_back(component);
 		}
+		component->Deserialize(componentJson);
 	}
 }
 

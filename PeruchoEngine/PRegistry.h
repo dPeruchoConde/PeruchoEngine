@@ -31,7 +31,7 @@ public:
 	PRegistry(const PRegistry&) = delete;
 	PRegistry& operator=(const PRegistry&) = delete;
 
-	Component* CreateCompoent(string type, string name, Entity& e);
+	Component* CreateComponent(string type, string name, Entity& e);
     void RegisterEntity(string name, function<unique_ptr<Entity>(const string)> constructor);
 	unique_ptr<Entity> CreateEntity(string type, string name);
 
