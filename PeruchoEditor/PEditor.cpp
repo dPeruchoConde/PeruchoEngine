@@ -319,7 +319,8 @@ void PEditor::DrawViewport() {
     // Detener simulación
     if (ImGui::Button("Load scene")) {
         if (sceneNames.size() <= 0) {
-            ImGui::OpenPopup("No scenes");        }
+            ImGui::OpenPopup("No scenes");        
+        }
         else {
             ImGui::OpenPopup("Select scene");
         }
@@ -407,8 +408,9 @@ void PEditor::DrawViewport() {
         {
             if (selectedScene[0] != '\0')
             {
-                PSceneManager::GetInstance().SaveScene(selectedScene);
+                PSceneManager::GetInstance().LoadScene(selectedScene);
                 CurrentScene = selectedScene;
+                ImGui::CloseCurrentPopup();
             }
         }
 
