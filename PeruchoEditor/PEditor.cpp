@@ -435,7 +435,7 @@ void PEditor::DrawViewport() {
         // Nombre de la escena
         ImGui::InputText("Scene Name", sceneName, IM_ARRAYSIZE(sceneName));
 
-        if (ImGui::Button("Add"))
+        if (ImGui::Button("Save"))
         {
             if (sceneName[0] != '\0')
             {

@@ -115,7 +115,7 @@ void Entity::Serialize(nlohmann::json& j) const {
 
 void Entity::Deserialize(const nlohmann::json& j) {
 	Name = j.value("name", "");
-	Type = j.value("name", "");
+	Type = j.value("type", "");
 	Enabled = j.value("enabled", true);
 	Tag = j.value("tag", "");
 
