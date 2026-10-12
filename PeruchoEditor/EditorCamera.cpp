@@ -1,7 +1,9 @@
 #include "EditorCamera.h"
 #include "PEditor.h"
 
-void EditorCamera::Start() {
+EditorCamera::EditorCamera(std::string name, Vector3 position, Vector4 rotation, Vector3 scale, std::string tag
+	) : Entity(name, position, rotation, scale, tag) 
+{
 	IsEditorOnly = true;
 }
 
