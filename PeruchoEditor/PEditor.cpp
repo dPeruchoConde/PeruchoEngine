@@ -148,6 +148,17 @@ void PEditor::DrawEntitiesPanel()
     {
         ImGui::OpenPopup("Add Entity");
     }
+    
+    if (SelectedEntity != nullptr) {
+        ImGui::SameLine();
+
+        // Boton para eliminar entidades
+        if (ImGui::Button("- Remove Entity"))
+        {
+            //SelectedEntity->Destroy();
+            //SelectedEntity = nullptr;
+        }
+    }
 
     // Datos de la entidad a crear
     static string selectedType;
@@ -246,6 +257,10 @@ void PEditor::DrawEntitiesPanel()
     // Lista de entidades
     for (const auto& [name, entity] : engine.GetEntities())
     {
+        if (dynamic_cast<EditorCamera*>(entity.get())) {
+            continue;
+        }
+
         bool selected = SelectedEntity == entity.get();
 
         if (ImGui::Selectable(name.c_str(), selected))

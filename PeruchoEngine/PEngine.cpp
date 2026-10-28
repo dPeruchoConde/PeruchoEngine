@@ -55,24 +55,6 @@ void PEngine::Render() {
             entity->Render(true);
         }
 
-        //// Cubo
-        //DrawCube(
-        //    Vector3{ 0.0f, 0.0f, 0.0f },
-        //    2.0f,
-        //    2.0f,
-        //    2.0f,
-        //    RED
-        //);
-        //
-        //// Contorno del cubo
-        //DrawCubeWires(
-        //    Vector3{ 0.0f, 0.0f, 0.0f },
-        //    2.0f,
-        //    2.0f,
-        //    2.0f,
-        //    MAROON
-        //);
-
         if (Grid) {
             DrawGrid(100, 1.0f);
         }
@@ -82,16 +64,7 @@ void PEngine::Render() {
         for (const auto& [name, entity] : Entities) {
             entity->Render(false);
         }
-        //DrawText(
-        //    "Cubo 3D",
-        //    20,
-        //    20,
-        //    30,
-        //    BLACK
-        //);
     }
-
-    //EndDrawing();
 }
 
 void PEngine::RenderGame() {
