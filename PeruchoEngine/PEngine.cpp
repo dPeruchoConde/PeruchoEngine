@@ -74,7 +74,7 @@ void PEngine::Render() {
         //);
 
         if (Grid) {
-            DrawGrid(10, 1.0f);
+            DrawGrid(100, 1.0f);
         }
 
         EndMode3D();

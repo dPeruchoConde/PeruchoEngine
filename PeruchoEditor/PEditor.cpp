@@ -312,8 +312,6 @@ void PEditor::DrawViewport() {
     }
 
     ImGui::SameLine();
-    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
-    ImGui::SameLine();
 
     const vector<string> sceneNames = PSceneManager::GetInstance().GetAllSceneNames();
     // Detener simulación
@@ -331,21 +329,35 @@ void PEditor::DrawViewport() {
     ImGui::SameLine();
 
     // Simular
-    if (ImGui::Button("-> Simulate")) {
-        PSceneManager::GetInstance().SaveScene("temp");
-        PEngine::GetInstance().PauseGame(false);
-        PEngine::GetInstance().StartGame();
+    if (Simulating == false) {
+        if (ImGui::Button("-> Simulate")) {
+            PSceneManager::GetInstance().SaveScene("temp");
+            PEngine::GetInstance().PauseGame(false);
+            PEngine::GetInstance().StartGame();
+            Simulating = true;
+        }
     }
+    else {
+        if (ImGui::Button("-> Continue")) {
+            PEngine::GetInstance().PauseGame(false);
+        }
 
-    ImGui::SameLine();
-    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
-    ImGui::SameLine();
+        ImGui::SameLine();
 
-    // Detener simulación
-    if (ImGui::Button("-> Stop")) {
-        SelectedEntity = nullptr;
-        PSceneManager::GetInstance().LoadScene("temp");
-        PEngine::GetInstance().PauseGame(true);
+        // Pausar simulación
+        if (ImGui::Button("|| Pause")) {
+            PEngine::GetInstance().PauseGame(true);
+        }
+
+        ImGui::SameLine();
+
+        // Detener simulación
+        if (ImGui::Button("[] Stop")) {
+            SelectedEntity = nullptr;
+            PSceneManager::GetInstance().LoadScene("temp");
+            PEngine::GetInstance().PauseGame(true);
+            Simulating = false;
+        }
     }
 
     ImGui::Separator();

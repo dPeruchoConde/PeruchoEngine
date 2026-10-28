@@ -37,6 +37,8 @@ private:
 
     Entity* SelectedEntity = nullptr;
 
+    bool Simulating = false;
+
 private:
     Entity* MainEditorCamera = nullptr;
 
