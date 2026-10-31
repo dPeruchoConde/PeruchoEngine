@@ -27,13 +27,11 @@ void PEngine::Update() {
 
     vector<string> entitiesToDestroy;
     for (const auto& [name, entity] : Entities) {
-        if (Paused == false || entity->IsEditorOnly == true) {
-            if (entity->ShouldDestroy()) {
-                entitiesToDestroy.push_back(entity->Name);
-            }
-            else {
-                entity->Update(deltaTime);
-            }
+        if (entity->ShouldDestroy()) {
+            entitiesToDestroy.push_back(entity->Name);
+        }
+        else if (Paused == false || entity->IsEditorOnly == true) {
+            entity->Update(deltaTime);
         }
     }
 

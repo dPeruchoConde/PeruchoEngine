@@ -144,19 +144,21 @@ void PEditor::DrawEntitiesPanel()
     PRegistry& registry = PRegistry::GetInstance();
 
     // Boton para crear entidades
-    if (ImGui::Button("+ Add Entity"))
-    {
-        ImGui::OpenPopup("Add Entity");
-    }
-    
-    if (SelectedEntity != nullptr) {
-        ImGui::SameLine();
-
-        // Boton para eliminar entidades
-        if (ImGui::Button("- Remove Entity"))
+    if (Simulating == false) {
+        if (ImGui::Button("+ Add Entity"))
         {
-            //SelectedEntity->Destroy();
-            //SelectedEntity = nullptr;
+            ImGui::OpenPopup("Add Entity");
+        }
+
+        if (SelectedEntity != nullptr) {
+            ImGui::SameLine();
+
+            // Boton para eliminar entidades
+            if (ImGui::Button("- Remove Entity"))
+            {
+                SelectedEntity->Destroy();
+                SelectedEntity = nullptr;
+            }
         }
     }
 
