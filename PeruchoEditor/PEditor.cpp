@@ -7,6 +7,7 @@
 #include "PSceneManager.h"
 #include "EditorCamera.h"
 #include "PCamera.h"
+#include "PProjectManager.h"
 
 PEditor& PEditor::GetInstance()
 {
@@ -145,7 +146,7 @@ void PEditor::DrawEntitiesPanel()
 
     // Boton para crear entidades
     if (Simulating == false) {
-        if (ImGui::Button("+ Add Entity"))
+        if (ImGui::Button("+ Add Entity") && !BuildingGame)
         {
             ImGui::OpenPopup("Add Entity");
         }
@@ -154,7 +155,7 @@ void PEditor::DrawEntitiesPanel()
             ImGui::SameLine();
 
             // Boton para eliminar entidades
-            if (ImGui::Button("- Remove Entity"))
+            if (ImGui::Button("- Remove Entity") && !BuildingGame)
             {
                 SelectedEntity->Destroy();
                 SelectedEntity = nullptr;
@@ -318,8 +319,19 @@ void PEditor::DrawInspector()
 void PEditor::DrawViewport() {
     ImGui::Begin("Viewport");
 
+    // Compilar juego
+    if (ImGui::Button("Build game")) {
+        BuildingGame = true;
+        PProjectManager::GetInstance().RebuildGame();
+        ImGui::OpenPopup("Building game");
+    }
+
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+    ImGui::SameLine();
+
     // Simular
-    if (ImGui::Button("Save scene")) {
+    if (ImGui::Button("Save scene") && !BuildingGame) {
         if (CurrentScene != "") {
             PSceneManager::GetInstance().SaveScene("temp");
         }
@@ -331,8 +343,8 @@ void PEditor::DrawViewport() {
     ImGui::SameLine();
 
     const vector<string> sceneNames = PSceneManager::GetInstance().GetAllSceneNames();
-    // Detener simulación
-    if (ImGui::Button("Load scene")) {
+    // Cargar escena
+    if (ImGui::Button("Load scene") && !BuildingGame) {
         if (sceneNames.size() <= 0) {
             ImGui::OpenPopup("No scenes");        
         }
@@ -347,7 +359,7 @@ void PEditor::DrawViewport() {
 
     // Simular
     if (Simulating == false) {
-        if (ImGui::Button("-> Simulate")) {
+        if (ImGui::Button("-> Simulate") && !BuildingGame) {
             PSceneManager::GetInstance().SaveScene("temp");
             PEngine::GetInstance().PauseGame(false);
             PEngine::GetInstance().StartGame();
@@ -375,6 +387,17 @@ void PEditor::DrawViewport() {
             PEngine::GetInstance().PauseGame(true);
             Simulating = false;
         }
+    }
+
+    ImGui::SameLine();
+    ImGui::SeparatorEx(ImGuiSeparatorFlags_Vertical);
+    ImGui::SameLine();
+
+    if (ImGui::Button("+ Create Entity") && !BuildingGame) {
+        PSceneManager::GetInstance().SaveScene("temp");
+        PEngine::GetInstance().PauseGame(false);
+        PEngine::GetInstance().StartGame();
+        Simulating = true;
     }
 
     ImGui::Separator();
@@ -456,7 +479,7 @@ void PEditor::DrawViewport() {
     static char sceneName[128] = "NewScene";
 
     // Popup de para guardar scenas
-    if (ImGui::BeginPopup("Create scene"))
+    if (ImGui::BeginPopup("Create scene") && !BuildingGame)
     {
         ImGui::Text("New scene");
         ImGui::Separator();

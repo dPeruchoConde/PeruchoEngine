@@ -39,6 +39,8 @@ private:
 
     bool Simulating = false;
 
+    bool BuildingGame = false;
+
 private:
     Entity* MainEditorCamera = nullptr;
 

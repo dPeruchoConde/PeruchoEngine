@@ -4,6 +4,11 @@
 #define NOMINMAX
 #include <Windows.h>
 
+PLoader& PLoader::GetInstance() {
+	static PLoader Instance;
+	return Instance;
+}
+
 PLoader::~PLoader() {
 	if (DllHandler) {
 		FreeLibrary(static_cast<HMODULE>(DllHandler));
@@ -23,4 +28,11 @@ bool PLoader::LoadModule(const char* path) {
 	}
 
 	return true;
+}
+
+void PLoader::UnloadModule() {
+	if (DllHandler) {
+		FreeLibrary(static_cast<HMODULE>(DllHandler));
+		DllHandler = nullptr;
+	}
 }

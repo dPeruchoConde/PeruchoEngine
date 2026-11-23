@@ -1,0 +1,22 @@
+#pragma once
+
+#include "Entity.h"
+#include "PRegistry.h"
+#include "PGameExport.h"
+
+class PGAME_API {{CLASS_NAME}} : public Entity
+{
+public:
+    {{CLASS_NAME}}(
+        std::string name,
+        Vector3 position = {0, 0, 0},
+        Vector4 rotation = {0, 0, 0, 0},
+        Vector3 scale = {1, 1, 1},
+        std::string tag = ""
+    );
+
+    void Start() override;
+    void Update(float deltaTime) override;
+};
+
+P_ENTITY({{CLASS_NAME}}, "{{CLASS_NAME}}")

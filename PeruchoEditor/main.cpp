@@ -8,8 +8,7 @@
 
 int main() 
 {
-    PLoader moduleLoader;
-    if (!moduleLoader.LoadModule("PGame.dll")) {
+    if (!PLoader::GetInstance().LoadModule("PGame.dll")) {
         return -1;
     }
 

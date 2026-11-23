@@ -1,0 +1,22 @@
+#include "{{CLASS_NAME}}.h"
+
+{{CLASS_NAME}}::{{CLASS_NAME}}(
+    std::string name,
+    Vector3 position,
+    Vector4 rotation,
+    Vector3 scale,
+    std::string tag
+)
+    : Entity(name, position, rotation, scale, tag)
+{
+}
+
+void {{CLASS_NAME}}::Start()
+{
+    Entity::Start();
+}
+
+void {{CLASS_NAME}}::Update(float deltaTime)
+{
+    Entity::Update(deltaTime);
+}
